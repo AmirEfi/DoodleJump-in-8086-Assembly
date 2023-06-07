@@ -20,7 +20,7 @@ DATA SEGMENT PARA 'DATA'
 	
 	game_active DB 1h                ; if game_active 0, means the game is over
 	
-	x_ball DW 30d                    ; first X of ball is 30
+    x_ball DW 30d                    ; first X of ball is 30
     y_ball DW 20d                    ; first Y of ball is 20
     sizeOfball DW 8d                 ; size of ball is 8
     velocity_x_ball DW 4d            ; velocity of ball in X
@@ -152,8 +152,8 @@ CODE SEGMENT PARA 'CODE'
 		CMP AX,0FAh                  
 		JBE LESS_EQUAL250
 		GREATER250:
-		    SUB AX,1Bh  			    ; if AX > 250 then AX -= 27 to make the rectangle be on screen
-			JMP END1
+		    SUB AX,1Bh  	        ; if AX > 250 then AX -= 27 to make the rectangle be on screen
+		    JMP END1
 		LESS_EQUAL250:	                ; if AX <= 250 then AX += 20 to make the rectangle be on screen
 		    ADD AX,14h  
         END1:
@@ -206,12 +206,12 @@ CODE SEGMENT PARA 'CODE'
             CMP AX,0B4h                  
 		    JBE less_equal_180
 		    GREATER180:
-		        SUB AX,05h  			; if AX > 180 then AX -= 5
+		        SUB AX,05h  		    ; if AX > 180 then AX -= 5
 		    	JMP END3
 		    less_equal_180:	            ; if AX <= 180 then AX += 10
 		        ADD AX,0Ah 		  
 	      END3:
-	        MOV BX, change_fake
+	    MOV BX, change_fake
             CMP BX, 1d
             JE putInFakeY
             
@@ -250,7 +250,7 @@ CODE SEGMENT PARA 'CODE'
 	
 	draw_rectangle PROC NEAR
 		
-		MOV CX,rectangle_x 			 ; set the initial column (X)
+		MOV CX,rectangle_x 		     ; set the initial column (X)
 		MOV DX,rectangle_y 		     ; set the initial line (Y)
 		
 		draw_rectangle_horitontal:
@@ -259,14 +259,14 @@ CODE SEGMENT PARA 'CODE'
 			MOV BH,00h 					 ; set the page number 
 			INT 10h    					 ; execute the configuration
 			
-			INC CX     				 	 ; CX = CX + 1
+			INC CX     				 ; CX = CX + 1
 			MOV AX,CX         			 ; CX - RECTANGLE_X > RECTANGLE_WIDTH (Y -> We go to the next line,N -> We continue to the next column
 			SUB AX,rectangle_x
 			CMP AX,rectangle_width
 			JNG draw_rectangle_horitontal
 			
 			MOV CX,rectangle_x 		     ; the CX register goes back to the initial column
-			INC DX       				 ; we advance one line
+			INC DX       			     ; we advance one line
 			
 			MOV AX,DX            	     ; DX - RECTANGLE_Y > RECTANGLE_HEIGHT (Y -> we exit this procedure, N -> we continue to the next line
 			SUB AX,rectangle_y
@@ -278,7 +278,7 @@ CODE SEGMENT PARA 'CODE'
 	
 	erase_rectangle PROC NEAR
 	    
-		MOV CX,rectangle_x 			 ; set the initial column (X)
+		MOV CX,rectangle_x 		     ; set the initial column (X)
 		MOV DX,rectangle_y 		     ; set the initial line (Y)
 		
 		erase_rectangle_horitontal:
@@ -287,14 +287,14 @@ CODE SEGMENT PARA 'CODE'
 			MOV BH,00h 					 ; set the page number 
 			INT 10h    					 ; execute the configuration
 			
-			INC CX     				 	 ; CX = CX + 1
+			INC CX     				 ; CX = CX + 1
 			MOV AX,CX         			 ; CX - RECTANGLE_X > RECTANGLE_WIDTH (Y -> We go to the next line,N -> We continue to the next column
 			SUB AX,rectangle_x
 			CMP AX,rectangle_width
 			JNG erase_rectangle_horitontal
 			
 			MOV CX,rectangle_x 		     ; the CX register goes back to the initial column
-			INC DX       				 ; we advance one line
+			INC DX       			     ; we advance one line
 			
 			MOV AX,DX            	     ; DX - RECTANGLE_Y > RECTANGLE_HEIGHT (Y -> we exit this procedure, N -> we continue to the next line
 			SUB AX,rectangle_y
@@ -319,7 +319,7 @@ CODE SEGMENT PARA 'CODE'
 	clear_screen ENDP
 	
 	draw_ball PROC NEAR
-	    MOV CX, x_ball
+	MOV CX, x_ball
         MOV DX, y_ball
     
     dimensionOfball:
@@ -831,7 +831,7 @@ CODE SEGMENT PARA 'CODE'
 	fake_rectangle PROC NEAR             ; draw the fake rectangle just like the draw_rectangle PROC
 	    	
 		MOV CX,rectangle_x_fake 	     ; set the initial column (X)
-		MOV DX,rectangle_y_fake 		 ; set the initial line (Y)
+		MOV DX,rectangle_y_fake 	     ; set the initial line (Y)
 		
 		draw_rectangle_horitontal:
 		
@@ -867,8 +867,8 @@ CODE SEGMENT PARA 'CODE'
 	    convertFake:              ; in this loop, we erase the middle of the fake paddle
 	    
 	        MOV AH,0Ch            ; set the configuration to writing a pixel
-		    MOV AL,00h 			  ; choose black as color		 
-		    MOV BH,00h 		      ; set the page number			 
+		    MOV AL,00h 		  ; choose black as color		 
+		    MOV BH,00h 		  ; set the page number			 
 		    INT 10h               ; execute the configuration
 		    
 		    INC CX
@@ -931,18 +931,18 @@ CODE SEGMENT PARA 'CODE'
 	    ; check collision for Y of ball and fake rectangle
 	    MOV AX, y_ball
         SUB AX, rectangle_y_fake
-        CMP AX, 0h         ; check if ball has collision with fake rectangle or not, if it has then delete this rectangel and make a new one
+        CMP AX, 0h             ; check if ball has collision with fake rectangle or not, if it has then delete this rectangel and make a new one
         JL NoColFake           ; if it jumps, means that y_ball is above the rectangle_fake_y
         
         SUB AX, rectangle_height ; if we reach here, means that ball is below the rectangle
-        CMP AX, 0h           ; check if y_ball has collision from below with rectangle_fake_y
+        CMP AX, 0h               ; check if y_ball has collision from below with rectangle_fake_y
         JG NoColFake
         
         ; check collision for X of ball and fake rectangle
         MOV AX, x_ball
         SUB AX, rectangle_x_fake 
         CMP AX, 0h    ; first we check that x of ball is greater than x of fake rectangle
-        JL NoColFake ; if less than 0, means ball is in left side of the fake rectangle and is not above it
+        JL NoColFake  ; if less than 0, means ball is in left side of the fake rectangle and is not above it
         
         SUB AX, rectangle_width
         CMP AX, 0h     ; then we check that x of ball is less than the width of rectangle 
@@ -1039,7 +1039,7 @@ CODE SEGMENT PARA 'CODE'
         MOV AX, x_ball
         SUB AX, x_spring 
         CMP AX, 0h    ; first we check that x of ball is greater than x of spring
-        JL NoColSpr ; if less than 0, means ball is in left side of the spring and is not above it
+        JL NoColSpr   ; if less than 0, means ball is in left side of the spring and is not above it
         
         SUB AX, sizeOfspring
         CMP AX, 0h     ; then we check that x of ball is less than the width of spring 
