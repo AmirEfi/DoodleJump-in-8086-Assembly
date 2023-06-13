@@ -100,7 +100,7 @@ CODE SEGMENT PARA 'CODE'
         
             CMP DL, time
             JE check_time  
-            MOV time, DL         ; update time
+            MOV time, DL                ; update time
             
             CALL erase_ball             ; erase the ball
                                         
@@ -157,30 +157,30 @@ CODE SEGMENT PARA 'CODE'
 		LESS_EQUAL250:	                ; if AX <= 250 then AX += 20 to make the rectangle be on screen
 		    ADD AX,14h  
         END1:
-            MOV BX, change_fake         ; check this random X is for fake rectangle or not
+            MOV BX, change_fake                 ; check this random X is for fake rectangle or not
             CMP BX, 1d
             JE putInFakeX
             
-            MOV BX, change_spring       ; check this random X is for spring or not
+            MOV BX, change_spring               ; check this random X is for spring or not
             CMP BX, 1d
             JE putInSprX
             
                          
-	    	MOV rectangle_x,AX           ; when it reaches here, means this random X is for real rectangle
+	    	MOV rectangle_x,AX              ; when it reaches here, means this random X is for real rectangle
 	    	RET
 	    	
 	    	putInFakeX:
-	    	    MOV rectangle_x_fake, AX ; put random X for fake rectangle
+	    	    MOV rectangle_x_fake, AX    ; put random X for fake rectangle
 	    	    RET
 	    	    
 	    	putInSprX:
-	    	    MOV x_spring, AX         ; put random X for spring
+	    	    MOV x_spring, AX            ; put random X for spring
 	    	    
 		
 		RET
 	generate_random_x ENDP
 
-    generate_random_y PROC NEAR 	     ; generate random Y in range 20 to 190 
+    generate_random_y PROC NEAR 	         ; generate random Y in range 20 to 190 
         
        
        
@@ -188,7 +188,7 @@ CODE SEGMENT PARA 'CODE'
 		  
 		  MOV AX,random_number
 		  MOV BX,0002h
-		  MUL BX                    ; AX = random number * 2
+		  MUL BX                         ; AX = random number * 2
 		  
 		  ; instructions below until the default value are for checking that the new rectangle won't go too far with the previous one in Y, if it goes then put a default value
 		  MOV BX,rectangle_y
@@ -268,7 +268,7 @@ CODE SEGMENT PARA 'CODE'
 			MOV CX,rectangle_x 		     ; the CX register goes back to the initial column
 			INC DX       			     ; we advance one line
 			
-			MOV AX,DX            	     ; DX - RECTANGLE_Y > RECTANGLE_HEIGHT (Y -> we exit this procedure, N -> we continue to the next line
+			MOV AX,DX            	             ; DX - RECTANGLE_Y > RECTANGLE_HEIGHT (Y -> we exit this procedure, N -> we continue to the next line
 			SUB AX,rectangle_y
 			CMP AX,rectangle_height
 			JNG draw_rectangle_horitontal
@@ -296,7 +296,7 @@ CODE SEGMENT PARA 'CODE'
 			MOV CX,rectangle_x 		     ; the CX register goes back to the initial column
 			INC DX       			     ; we advance one line
 			
-			MOV AX,DX            	     ; DX - RECTANGLE_Y > RECTANGLE_HEIGHT (Y -> we exit this procedure, N -> we continue to the next line
+			MOV AX,DX            	             ; DX - RECTANGLE_Y > RECTANGLE_HEIGHT (Y -> we exit this procedure, N -> we continue to the next line
 			SUB AX,rectangle_y
 			CMP AX,rectangle_height
 			JNG erase_rectangle_horitontal
@@ -304,7 +304,7 @@ CODE SEGMENT PARA 'CODE'
 	    RET
 	erase_rectangle ENDP
 	
-	clear_screen PROC NEAR               ; clear the screen by restarting the video mode
+	clear_screen PROC NEAR                       ; clear the screen by restarting the video mode
 	
 			MOV AH,00h                   ; set the configuration to video mode
 			MOV AL,13h                   ; choose the video mode
